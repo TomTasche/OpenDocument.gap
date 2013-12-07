@@ -34,7 +34,12 @@ var app = {
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-	window.open("http://2.opendocument-cloud.appspot.com/translator");
+
+	filepicker.setKey('Ao7lHjOFkSnuR9mgQ5Jhtz');
+
+	document.getElementById("fp_test").onchange = function(event) {
+		alert(event.files[0].url);
+	}
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {

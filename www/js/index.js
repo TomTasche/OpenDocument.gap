@@ -16,6 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+var serverUrl = "https://2.opendocument-cloud.appspot.com/";
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -35,8 +37,26 @@ var app = {
     onDeviceReady: function() {
 	filepicker.setKey('Ao7lHjOFkSnuR9mgQ5Jhtz');
 
-	filepicker.pick(function(InkBlob){
-		console.log(InkBlob.url);
+	filepicker.pick(function(file){
+		console.log(file.url);
+
+		var httpRequest = new XMLHttpRequest();
+
+		var requestUrl = serverUrl + "file";
+		var parameters = "type=various&mime=" + encodeURIComponent(file.mimetype) + "&name=" + encodeURIComponent(file.filename) + "&url=" + encodeURIComponent(file.url);
+
+		httpRequest.onreadystatechange = function() {
+			if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+				var fileHandle = JSON.parse(httpRequest.responseText);
+				console.log(fileHandle.file);
+
+				window.location.href = serverUrl + "translator" + "?file=" + fileHandle.file + "&type=" + fileHandle.type;
+			}
+		};
+
+		httpRequest.open("POST", requestUrl, true);
+		httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		httpRequest.send(parameters);
 	});
     }
 };

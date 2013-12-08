@@ -37,9 +37,10 @@ var app = {
 
 	filepicker.setKey('Ao7lHjOFkSnuR9mgQ5Jhtz');
 
-	document.getElementById("fp_test").onchange = function(event) {
-		alert(event.files[0].url);
-	}
+	filepicker.getFile(null, {}, function(url, data) {
+		console.log(url);
+		console.log(data);
+	});
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
